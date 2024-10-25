@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 let drawing = false;
 let startX, startY;
 let tool = 'line';
-
+let color = document.getElementById('colorPicker').value;
 
 document.querySelectorAll('input[name="tool"]').forEach((elem) => {
     elem.addEventListener('change', (event) => {
