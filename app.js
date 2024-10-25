@@ -3,9 +3,6 @@ const ctx = canvas.getContext('2d');
 const colorInput = document.getElementById('color');
 const clearButton = document.getElementById('clear');
 
-let drawing = false;
-let startX, startY;
-let shape = 'line';
 
 // Mouse down event to start drawing
 canvas.addEventListener('mousedown', (e) => {
