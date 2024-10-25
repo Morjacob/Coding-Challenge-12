@@ -18,6 +18,8 @@ canvas.addEventListener('mousemove', (e) => {
     if (drawing) {
         ctx.clearRect(0, 0, canvas.width, canvas.height); 
         ctx.strokeStyle = colorInput.value;
+        ctx.lineTo(e.offsetX,e.offsetY);
+        ctx.stroke();
 
         if (shape === 'line') {
             ctx.beginPath();
