@@ -1,11 +1,18 @@
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
-const colorInput = document.getElementById('colorPicker'); 
-const clearButton = document.getElementById('clearButton'); 
+const colorInput = document.getElementById('color');
+const clearButton = document.getElementById('clear');
 
 let drawing = false;
 let startX, startY;
-let shape = 'line';
+let tool = 'line';
+
+document.querySelectorAll('input[name="tool"]').forEach((radio) => {
+    radio.addEventListener('change', (e) => {
+        tool = e.target.value;
+    });
+});
+
 
 canvas.addEventListener('mousedown', (e) => {
     drawing = true;
@@ -15,42 +22,32 @@ canvas.addEventListener('mousedown', (e) => {
 
 
 canvas.addEventListener('mousemove', (e) => {
-    if (drawing) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height); 
-        ctx.strokeStyle = colorInput.value;
-        ctx.lineTo(e.offsetX,e.offsetY);
-        ctx.stroke();
+    if (!drawing) return;
+    ctx.strokeStyle = colorInput.value;
+    ctx.fillStyle = colorInput.value;
 
-        if (shape === 'line') {
-            ctx.beginPath();
-            ctx.moveTo(startX, startY);
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-        } else if (shape === 'rectangle') {
-            const width = e.offsetX - startX;
-            const height = e.offsetY - startY;
-            ctx.beginPath();
-            ctx.rect(startX, startY, width, height);
-            ctx.stroke();
-        } else if (shape === 'circle') {
-            const radius = Math.sqrt((e.offsetX - startX) ** 2 + (e.offsetY - startY) ** 2);
-            ctx.beginPath();
-            ctx.arc(startX, startY, radius, 0, Math.PI * 2);
-            ctx.stroke();
-        }
+    const endX = e.offsetX;
+    const endY = e.offsetY;
+
+    if (tool === 'line') {
+        ctx.beginPath();
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+    } else if (tool === 'rectangle') {
+        ctx.beginPath();
+        ctx.rect(startX, startY, endX - startX, endY - startY);
+        ctx.stroke();
+    } else if (tool === 'circle') {
+        const radius = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+        ctx.beginPath();
+        ctx.arc(startX, startY, radius, 0, Math.PI * 2);
+        ctx.stroke();
     }
 });
 
-
 canvas.addEventListener('mouseup', () => {
-    drawing = true;
-});
-
-
-document.querySelectorAll('input[name="shape"]').forEach((radio) => {
-    radio.addEventListener('change', (e) => {
-        shape = e.target.value;
-    });
+    drawing = false;
 });
 
 
