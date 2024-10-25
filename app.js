@@ -7,6 +7,7 @@ let drawing = false;
 let startX, startY;
 let tool = 'line';
 
+//allows you to pick which tool you want to use
 document.querySelectorAll('input[name="tool"]').forEach((radio) => {
     radio.addEventListener('change', (e) => {
         tool = e.target.value;
@@ -29,6 +30,8 @@ canvas.addEventListener('mousemove', (e) => {
     const endX = e.offsetX;
     const endY = e.offsetY;
 
+
+//the tools allow users to draw lines, rectangles, or circles
     if (tool === 'line') {
         ctx.beginPath();
         ctx.moveTo(startX, startY);
@@ -46,11 +49,12 @@ canvas.addEventListener('mousemove', (e) => {
     }
 });
 
+
 canvas.addEventListener('mouseup', () => {
     drawing = false;
 });
 
-
+//Will clear the entire canvas
 clearButton.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
